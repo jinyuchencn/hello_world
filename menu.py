@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
-from Tkinter import*
-from tkMessageBox import*
+from tkinter import*
+# from tkMessageBox import*
 import plane                        #导入plane以运行游戏
 
 def start():                        #开始游戏
@@ -10,7 +10,7 @@ def start():                        #开始游戏
     plane.main(l)
     
 def help():                         #游戏帮助
-    showinfo(title='Plane', message='1.利用键盘控制战机,左键代表左移,右键代表右移,上键代表上移,下键代表下移。\n2.小心不要让敌军飞机伤害你！否则你会失去一条生命,\
+    tkinter.messagebox.showinfo(title='Plane', message='1.利用键盘控制战机,左键代表左移,右键代表右移,上键代表上移,下键代表下移。\n2.小心不要让敌军飞机伤害你！否则你会失去一条生命,\
 你只有三条宝贵的生命！生命会在左下角显示。\n3.你可以使用炮弹攻击敌军飞机，利用空格键释放一颗炮弹。\n4.炮弹的释放需要积累100点能量，释放一次炮弹能量将归零。\
 能量的积累会在右下角显示。\n5.摧毁一架敌军飞机可以得5分，存活时间越长你的成绩也会相应增加，成绩会在右上角显示。\n6.你可以随时通过alt键暂停。\n7.你可以随时通过P键\
 退出这场战斗。\n祝你好运！')

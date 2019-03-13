@@ -1,24 +1,24 @@
-# -*- coding: cp936 -*-
-from Tkinter import *
+# -*- coding: UTF-8 -*-
+from tkinter import *
 from random import *
 from time import *
-from tkMessageBox import *
-import menu                                 #µ¼ÈëÁíÒ»¸öÎÄ¼ş,Ê¹µÃÓÎÏ·½áÊøºóÍË»Ø²Ëµ¥
+# from tkMessageBox import *
+import menu                                 #å¯¼å…¥å¦ä¸€ä¸ªæ–‡ä»¶,ä½¿å¾—æ¸¸æˆç»“æŸåé€€å›èœå•
 
-global opt,bulletX,bulletY,bulletX1,billetY1#¶¨Òå×Óµ¯ÔËĞĞËùĞèµÄÈ«¾Ö±äÁ¿
+global opt,bulletX,bulletY,bulletX1,billetY1#å®šä¹‰å­å¼¹è¿è¡Œæ‰€éœ€çš„å…¨å±€å˜é‡
 opt,bulletX,bulletY=0,0,0
 
-class  Enemy:                               #µĞ·½·É»úÀà
-    def __init__(self,planepicture,frame):  #µĞ·½·É»úÊôĞÔ
+class  Enemy:                               #æ•Œæ–¹é£æœºç±»
+    def __init__(self,planepicture,frame):  #æ•Œæ–¹é£æœºå±æ€§
         self.planepicture=Label(frame,image=(planepicture),bd=0)
         self.x=50
         self.y=-40+100*random()
         self.speed=level
         self.direction=randrange(3)-1
-    def move1(self):                        #ÒÆ¶¯Ä£Ê½Ò»
+    def move1(self):                        #ç§»åŠ¨æ¨¡å¼ä¸€
         self.y=self.y+self.speed
         self.planepicture.place(x=self.x,y=self.y)
-    def move2(self):                        #ÒÆ¶¯Ä£Ê½¶ş
+    def move2(self):                        #ç§»åŠ¨æ¨¡å¼äºŒ
         if self.x<20:
             self.direction=1
         elif self.x>480:
@@ -26,64 +26,64 @@ class  Enemy:                               #µĞ·½·É»úÀà
         self.x=self.x+self.direction*self.speed/3
         self.y=self.y+self.speed*(0.6+0.4*random())
         self.planepicture.place(x=self.x,y=self.y)
-    def copy(self):                         #±ãÓÚ³õÊ¼¶¨ÒåµĞ·½·É»ú
+    def copy(self):                         #ä¾¿äºåˆå§‹å®šä¹‰æ•Œæ–¹é£æœº
         self.y=self.y+50
         self.planepicture.place(x=self.x,y=self.y,anchor=CENTER)
-    def reset1(self):                       #µĞ·½·É»ú´ó¸Å·É³ö¾Í»Ö¸´Ô­Î»ÖÃÒ»
+    def reset1(self):                       #æ•Œæ–¹é£æœºå¤§æ¦‚é£å‡ºå°±æ¢å¤åŸä½ç½®ä¸€
         if self.y>670:
             self.y=-110
             self.x=100*random()
             return self.y,self.x
-    def reset2(self):                       #µĞ·½·É»ú´ó¸Å·É³ö¾Í»Ö¸´Ô­Î»ÖÃ¶ş
+    def reset2(self):                       #æ•Œæ–¹é£æœºå¤§æ¦‚é£å‡ºå°±æ¢å¤åŸä½ç½®äºŒ
         if self.y>670:
             self.y=-110
             self.x=130+100*random()
             return self.y,self.x
-    def reset3(self):                       #µĞ·½·É»ú´ó¸Å·É³ö¾Í»Ö¸´Ô­Î»ÖÃÈı
+    def reset3(self):                       #æ•Œæ–¹é£æœºå¤§æ¦‚é£å‡ºå°±æ¢å¤åŸä½ç½®ä¸‰
         if self.y>670:
             self.y=-110
             self.x=260+100*random()
             return self.y,self.x
-    def reset4(self):                       #µĞ·½·É»ú´ó¸Å·É³ö¾Í»Ö¸´Ô­Î»ÖÃËÄ
+    def reset4(self):                       #æ•Œæ–¹é£æœºå¤§æ¦‚é£å‡ºå°±æ¢å¤åŸä½ç½®å››
         if self.y>670:
             self.y=-110
             self.x=300+100*random()
             return self.y,self.x
-    def reset5(self):                       #µĞ·½·É»ú´ó¸Å·É³ö¾Í»Ö¸´Ô­Î»ÖÃÎå
+    def reset5(self):                       #æ•Œæ–¹é£æœºå¤§æ¦‚é£å‡ºå°±æ¢å¤åŸä½ç½®äº”
         if self.y>670:
             self.y=-110
             self.x=400 +100*random()
             return self.y,self.x
 
-class Bullet:                               #×Óµ¯Àà   
-    def __init__(self,planepicture,frame):  #×Óµ¯ÊôĞÔ
+class Bullet:                               #å­å¼¹ç±»   
+    def __init__(self,planepicture,frame):  #å­å¼¹å±æ€§
         self.planepicture=Label(frame,image=(planepicture),bd=0)
         self.speed=20
-    def move(self,X,Y):                     #×Óµ¯ÒÆ¶¯
+    def move(self,X,Y):                     #å­å¼¹ç§»åŠ¨
         self.planepicture.place(x=X,y=Y,anchor=CENTER)
-    def option(self,event):                 #¾ö¶¨×Óµ¯ÊÇ·ñÔËĞĞ£¬ÄÜÁ¿£¨h£©ÂúÊ±²ÅÄÜ·¢Éä×Óµ¯
+    def option(self,event):                 #å†³å®šå­å¼¹æ˜¯å¦è¿è¡Œï¼Œèƒ½é‡ï¼ˆhï¼‰æ»¡æ—¶æ‰èƒ½å‘å°„å­å¼¹
         global bulletX,bulletY,bulletX1,bulletY1,opt,h
         if h==100:                          
            opt,bulletX,bulletY,h=1,bulletX1,bulletY1,0
         return opt,bulletX,bulletY,bulletX1,bulletY1
-    def crasha(self,enemy):                 #ÅĞ¶Ï×Óµ¯ÓëµĞ»úÏàÅö
+    def crasha(self,enemy):                 #åˆ¤æ–­å­å¼¹ä¸æ•Œæœºç›¸ç¢°
         global bulletX,bulletY
         if abs(bulletX-enemy.x)<=20 and abs(bulletY-enemy.y)<=20:
             return True
         else:return False
-    def reset(self):                        #ÓÎÏ·½áÊøÊ±×Óµ¯¸´Î»
+    def reset(self):                        #æ¸¸æˆç»“æŸæ—¶å­å¼¹å¤ä½
         global bulletX,bulletY
         self.planepicture.place(x=1900,y=0,anchor=CENTER)
         
-class MyPlane:                              #ÎÒ·½Õ½¶·»úÀà                                                             
+class MyPlane:                              #æˆ‘æ–¹æˆ˜æ–—æœºç±»                                                             
     def __init__(self,planepicture,frame):
-        self.planepicture=Label(frame,image=(planepicture),bd=0)#µ¼Èë·É»úÍ¼ĞÎ
+        self.planepicture=Label(frame,image=(planepicture),bd=0)#å¯¼å…¥é£æœºå›¾å½¢
         self.x1=200
         self.y1=600
-    def planeplace(self):                   #Éè¶¨·É»úÎ»ÖÃ
+    def planeplace(self):                   #è®¾å®šé£æœºä½ç½®
         self.planepicture.place(x=self.x1,y=self.y1,anchor=CENTER)
         
-    def zuoyi(self,event):                  #·É»úÒÆ¶¯º¯Êı
+    def zuoyi(self,event):                  #é£æœºç§»åŠ¨å‡½æ•°
         if self.x1>=40:
            self.planepicture.place(x=self.x1-10,y=self.y1)
            self.x1=self.x1-10
@@ -103,35 +103,35 @@ class MyPlane:                              #ÎÒ·½Õ½¶·»úÀà
            self.planepicture.place(x=self.x1,y=self.y1+10)
            self.y1=self.y1+10
         else:return
-    def crasha(self,enemy):                 #·É»úÅö×²º¯Êı       
+    def crasha(self,enemy):                 #é£æœºç¢°æ’å‡½æ•°       
         if abs(self.x1 - enemy.x)<=40 and abs(self.y1-enemy.y)<=47:return -1
         else:return 1
         
-def callback(event):                        #ÖĞÍ¾ÍË³ö
+def callback(event):                        #ä¸­é€”é€€å‡º
     global stop
     answer=askokcancel('Dialog','Do you want to quit?')
-    if answer:                              #ÓÃstop´ú±íÍË³ö
+    if answer:                              #ç”¨stopä»£è¡¨é€€å‡º
         stop=1
 
-def show(score):                            #µÃ·ÖÏÔÊ¾
-    showinfo(title='score', message='Your final score is %d.\nThanks!'%(score))
+def show(score):                            #å¾—åˆ†æ˜¾ç¤º
+    tkinter.messagebox.showinfo(title='score', message='Your final score is %d.\nThanks!'%(score))
     return
 
             
-def main(l):                                #Ö÷º¯Êı£¬lÎªmenu´«µİµÄÄÑ¶È²ÎÁ¿
+def main(l):                                #ä¸»å‡½æ•°ï¼Œlä¸ºmenuä¼ é€’çš„éš¾åº¦å‚é‡
     global f,pic3,crash,score,stop,h,level
     score=0
     level=l
     root = Tk()
     f=Frame(root,width=500,height=700)
     f.pack()
-    pic=PhotoImage(file='plane5.gif')       #Í¼Æ¬µ¼Èë   
+    pic=PhotoImage(file='plane5.gif')       #å›¾ç‰‡å¯¼å…¥   
     pic2=PhotoImage(file='plane2.gif')
     pic1=PhotoImage(file='plane1.gif')
     pic4=PhotoImage(file='Bullet.gif')      
     pic5=PhotoImage(file='ming.gif')
     
-    myplane3=MyPlane(pic,f)                #½çÃæ£¨±³¾°¡¢ÉúÃü£©ÉèÖÃ
+    myplane3=MyPlane(pic,f)                #ç•Œé¢ï¼ˆèƒŒæ™¯ã€ç”Ÿå‘½ï¼‰è®¾ç½®
     myplane3.planepicture.place(x=250,y=350,anchor=CENTER)
     bullet=Bullet(pic4,f)
     myplane=MyPlane(pic1,f)
@@ -143,8 +143,8 @@ def main(l):                                #Ö÷º¯Êı£¬lÎªmenu´«µİµÄÄÑ¶È²ÎÁ¿
     myplane7=MyPlane(pic5,f)
     myplane7.planepicture.place(x=15,y=630,anchor=CENTER)
                                                    
-    enemyplane1=Enemy(pic2,f)               #ÖÆÔìµĞ·½·É»ú£¬Ëæ»ú¸³Óè·É»úµÄÎ»ÖÃ
-    enemyplane1.x=100*random()              #µÚÒ»ĞĞ·É»ú£¬enemyplane2Îªµ÷ÕûÄÑ¶ÈÉ¾È¥£¬ÏÂÍ¬
+    enemyplane1=Enemy(pic2,f)               #åˆ¶é€ æ•Œæ–¹é£æœºï¼Œéšæœºèµ‹äºˆé£æœºçš„ä½ç½®
+    enemyplane1.x=100*random()              #ç¬¬ä¸€è¡Œé£æœºï¼Œenemyplane2ä¸ºè°ƒæ•´éš¾åº¦åˆ å»ï¼Œä¸‹åŒ
     enemyplane1.copy()
     #enemyplane2=Enemy(pic2,f)
     #enemyplane2.x=100+100*random()
@@ -159,7 +159,7 @@ def main(l):                                #Ö÷º¯Êı£¬lÎªmenu´«µİµÄÄÑ¶È²ÎÁ¿
     enemyplane5.x=400+100*random()
     enemyplane5.copy()
     
-    enemyplane6=Enemy(pic2,f)               #µÚ¶şĞĞ·É»ú
+    enemyplane6=Enemy(pic2,f)               #ç¬¬äºŒè¡Œé£æœº
     enemyplane6.x=100*random()
     enemyplane6.y=-280+100*random()
     enemyplane6.copy()
@@ -180,7 +180,7 @@ def main(l):                                #Ö÷º¯Êı£¬lÎªmenu´«µİµÄÄÑ¶È²ÎÁ¿
     enemyplane10.y=-280+100*random()
     enemyplane10.copy()
     
-    enemyplane11=Enemy(pic2,f)              #µÚÈıĞĞ·É»ú
+    enemyplane11=Enemy(pic2,f)              #ç¬¬ä¸‰è¡Œé£æœº
     enemyplane11.x=100*random()
     enemyplane11.y=-480+100*random()
     enemyplane11.copy()
@@ -203,35 +203,35 @@ def main(l):                                #Ö÷º¯Êı£¬lÎªmenu´«µİµÄÄÑ¶È²ÎÁ¿
     lista=[enemyplane1,enemyplane3,enemyplane4,enemyplane5,enemyplane6,enemyplane7,
            enemyplane9,enemyplane10,enemyplane11,enemyplane12,enemyplane13,enemyplane15]
     
-    crash,life,stop,score,h=1,3,0,0,0       #stop:×ÔĞĞÍË³ö±êÖ¾   h£ºÄÜÁ¿Ìõ
+    crash,life,stop,score,h=1,3,0,0,0       #stop:è‡ªè¡Œé€€å‡ºæ ‡å¿—   hï¼šèƒ½é‡æ¡
 
-    f.bind("<Left>" ,myplane.zuoyi)         #ÎÒ·Å·É»úÖ¸ÁîÊäÈë
+    f.bind("<Left>" ,myplane.zuoyi)         #æˆ‘æ”¾é£æœºæŒ‡ä»¤è¾“å…¥
     f.bind("<Right>" ,myplane.youyi)
     f.bind("<Up>" ,myplane.shangyi)
     f.bind("<Down>" ,myplane.xiayi)
     score1=Label(f,text='score:',fg='red',bg='black')
-    score1.place(x=415,y=23,anchor=SW)      #·ÖÊıÏÔÊ¾
+    score1.place(x=415,y=23,anchor=SW)      #åˆ†æ•°æ˜¾ç¤º
     score2=Label(f,text=score,fg='red',bg='black')
     score2.place(x=455,y=23,anchor=SW)
     enegy1=Label(f,text='enegy:',fg='red',bg='black')
-    enegy1.place(x=435,y=650,anchor=SW)     #ÄÜÁ¿ÏÔÊ¾
+    enegy1.place(x=435,y=650,anchor=SW)     #èƒ½é‡æ˜¾ç¤º
     enegy2=Label(f,text=h,fg='red',bg='black')
     enegy2.place(x=475,y=650,anchor=SW)
 
 
-    for i in range(1000000) :               #×ÜÑ­»·
+    for i in range(1000000) :               #æ€»å¾ªç¯
         
         score2.config(text=score)
         score2.place(x=455,y=23,anchor=SW)
         enegy2.config(text=h)
         enegy2.place(x=475,y=650,anchor=SW)
         score+=1
-        f.bind('<Key-p>',callback)          #Éè¶¨PÔİÍ£
+        f.bind('<Key-p>',callback)          #è®¾å®šPæš‚åœ
 
-        if h<100:                           #Éè¶¨ÄÜÁ¿Ôö³¤
+        if h<100:                           #è®¾å®šèƒ½é‡å¢é•¿
             h+=1
             
-        if (crash==-1 and life==0) or stop==1:  #Éè¶¨ÓÎÏ·½áÊøÌõ¼ş
+        if (crash==-1 and life==0) or stop==1:  #è®¾å®šæ¸¸æˆç»“æŸæ¡ä»¶
             show(score)
             root.quit()
             root.destroy()
@@ -244,7 +244,7 @@ def main(l):                                #Ö÷º¯Êı£¬lÎªmenu´«µİµÄÄÑ¶È²ÎÁ¿
         global bulletX,bulletY,bulletX1,bulletY1
         bulletX1,bulletY1=myplane.x1,myplane.y1
         
-        if h==100:f.bind("<space>" ,bullet.option)#·¢Éä×Óµ¯
+        if h==100:f.bind("<space>" ,bullet.option)#å‘å°„å­å¼¹
         if opt==1:
             bullet.move(bulletX,bulletY)
             bulletY=bulletY-bullet.speed
@@ -252,14 +252,14 @@ def main(l):                                #Ö÷º¯Êı£¬lÎªmenu´«µİµÄÄÑ¶È²ÎÁ¿
         f.pack()
 
         
-        if life>0:                          #µĞ·½·É»úÒÆ¶¯
+        if life>0:                          #æ•Œæ–¹é£æœºç§»åŠ¨
           for j in range(len(lista)) :
             crash=1
             crash=myplane.crasha(lista[j])
-            if score<=1000:                 #·ÖÊıµÍÓÚ1000Ê±Ä£Ê½Ò»
+            if score<=1000:                 #åˆ†æ•°ä½äº1000æ—¶æ¨¡å¼ä¸€
                 lista[j].move1()            
             
-            elif score>1000:                #·ÖÊı¸ßÓÚ1000ÊÇÄ£Ê½¶ş
+            elif score>1000:                #åˆ†æ•°é«˜äº1000æ˜¯æ¨¡å¼äºŒ
                 if j%2==0:
                     lista[j].move2()
                 else:
@@ -280,7 +280,7 @@ def main(l):                                #Ö÷º¯Êı£¬lÎªmenu´«µİµÄÄÑ¶È²ÎÁ¿
             elif j%4==3:
                 lista[j].reset5()
             
-        else:                               #ÓÎÏ·½áÊø
+        else:                               #æ¸¸æˆç»“æŸ
             myplane7.planepicture.place(x=-40,y=630,anchor=CENTER)
             bullet.reset()
             bulletX,bulletY=900,0
